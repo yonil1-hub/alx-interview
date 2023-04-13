@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-This script parses a log file and prints
-the file size and status code metrics.
+This script parses a log file and prints the
+file size and status code metrics.
 """
 
 import sys
@@ -31,15 +31,17 @@ if __name__ == "__main__":
     try:
         for line in sys.stdin:
             try:
-                parts = line.split()
-                status_code = parts[-2]
+                status_code = line.split()[-2]
                 if status_code in codes_count:
                     codes_count[status_code] += 1
-                file_size = int(parts[-1])
+
+                file_size = int(line.split()[-1])
                 file_size_total += file_size
+
             except Exception:
                 pass
 
+            # Print metrics every 10 lines.
             count += 1
             if count == 10:
                 print_metrics(file_size_total, codes_count)
@@ -50,3 +52,4 @@ if __name__ == "__main__":
         raise
 
     print_metrics(file_size_total, codes_count)
+
