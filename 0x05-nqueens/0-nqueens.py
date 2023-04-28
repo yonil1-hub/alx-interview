@@ -2,119 +2,110 @@
 """
 The N queens puzzle is the challenge of placing N
 non-attacking queens on an N×N chessboard.
-
-TODO:
-    * Write a program that solves the N queens problem.
 """
 
 
-def solve_n_queens(chess_board, row, queens_placed, solutions):
+def queens(chessBoard, row, majestyz, resolve):
     """
     Args:
-        chess_board (list)
-        row (int)
-        queens_placed (int)
-        solutions (list)
-
-    Returns:
-        solutions (list)
+        chessBoard
     """
-    if queens_placed == len(chess_board):
-        solutions.append(get_solution(chess_board))
-        return solutions
+    if majestyz == len(chessBoard):
+        resolve.append(extract(chessBoard))
+        return (resolve)
 
-    for col in range(len(chess_board)):
-        if chess_board[row][col] == -1:
-            new_board = copy_board(chess_board)
-            new_board[row][col] = 1
-            cancel_vulnerable_positions(new_board, row, col)
-            solutions = solve_n_queens(new_board, row + 1, queens_placed + 1, solutions)
-    return solutions
+    for col in range(len(chessBoard)):
+        if chessBoard[row][col] == -1:
+            demo = copyBoard(chessBoard)
+            demo[row][col] = 1
+            cancel(demo, row, col)
+            resolve = queens(demo, row + 1, majestyz + 1, resolve)
+    return (resolve)
 
 
-def cancel_vulnerable_positions(chess_board, row, col):
+def cancel(chessBoard, row, col):
     """
     Cancels out vulnerable positions for the queen
 
     Args:
-        chess_board (list)
+        chessBoard (list)
         row (int)
         col (int)
     """
-    n = len(chess_board)
+    length = len(chessBoard)
     """Cancel forward positions"""
-    for c in range(col + 1, n):
-        chess_board[row][c] = 0
+    for c in range(col + 1, length):
+        chessBoard[row][c] = 0
     """Cancel backwards positions"""
     for c in range(col - 1, -1, -1):
-        chess_board[row][c] = 0
+        chessBoard[row][c] = 0
     """Cancel down positions"""
-    for r in range(row + 1, n):
-        chess_board[r][col] = 0
+    for r in range(row + 1, length):
+        chessBoard[r][col] = 0
     """Cancel up positions"""
-    for r in range(row - 1, -1, -1):
-        chess_board[r][col] = 0
+    for r in range(row - 1, -1, 1):
+        chessBoard[r][col] = 0
     """Cancel right downward diagonal positions"""
     c = col + 1
-    for r in range(row + 1, n):
-        if c >= n:
+    for r in range(row + 1, length):
+        if c >= length:
             break
-        chess_board[r][c] = 0
+        chessBoard[r][c] = 0
         c += 1
     """Cancel left upward diagonal positions"""
     c = col - 1
     for r in range(row - 1, -1, -1):
         if c < 0:
             break
-        chess_board[r][c] = 0
+        chessBoard[r][c] = 0
         c -= 1
     """Cancel right upward diagonal positions"""
     c = col + 1
     for r in range(row - 1, -1, -1):
-        if c >= n:
+        if c >= length:
             break
-        chess_board[r][c] = 0
+        chessBoard[r][c] = 0
         c += 1
     """Cancel left downward diagonal positions"""
     c = col - 1
-    for r in range(row + 1, n):
+    for r in range(row + 1, length):
         if c < 0:
             break
-        chess_board[r][c] = 0
+        chessBoard[r][c] = 0
         c -= 1
 
 
-def create_chess_board(n):
+def chessBoard(N):
     """
     Create a board of size N * N
     """
-    chess_board = []
+    chessBoard = []
 
     """Create rows"""
-    for row in range(n):
-        chess_board.append([])
+    for row in range(N):
+        chessBoard.append([])
 
     """Create columns"""
-    for row in chess_board:
-        for col in range(n):
+    for row in chessBoard:
+        for n in range(N):
             row.append(-1)
 
-    return chess_board
+    return (chessBoard)
 
 
-def copy_board(chess_board):
+def copyBoard(chessBoard):
     """
-    make a copy of chess_board
+    make a copy of chessBoard
     """
-    if isinstance(chess_board, list):
+    if type(chessBoard) == list:
         """Recursively copy"""
-        return list(map(copy_board, chess_board))
-    return chess_board
+        return list(map(copyBoard, chessBoard))
+    return (chessBoard)
 
 
-def get_solution(chess_board):
+def extract(chessBoard):
     """
-    Extract the required outcome
+    Extract the required outcome from the chess board
     """
     outcome = []
     for row in range(len(chessBoard)):
