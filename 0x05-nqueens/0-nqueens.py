@@ -5,15 +5,8 @@ import sys
 
 
 solutions = []
-"""The list of possible solutions to the N queens problem.
-"""
 n = 0
-"""The size of the chessboard.
-"""
 pos = None
-"""The list of possible positions on the chessboard.
-"""
-
 
 def get_input():
     """Retrieves and validates this program's argument.
