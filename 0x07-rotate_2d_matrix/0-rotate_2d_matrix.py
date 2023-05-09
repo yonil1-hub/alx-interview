@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """
-    Rotate the matrix 
+    Rotate the matrix
 """
-
 
 
 def rotate_2d_matrix(matrix):
