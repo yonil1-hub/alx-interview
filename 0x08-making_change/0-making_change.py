@@ -7,10 +7,8 @@ a total amount, and returns the minimum number of coins required to make the
 total amount using the coins provided.
 """
 
-from typing import List
 
-
-def find_minimum_coins(coins: List[int], total: int) -> int:
+def find_minimum_coins(coins, total):
     """Finds the minimum number of coins required to make the given total.
 
     Args:
