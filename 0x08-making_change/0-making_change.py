@@ -24,12 +24,15 @@ def find_minimum_coins(coins, total):
     if total <= 0:
         return 0
 
-    coins = sorted(coins, reverse=True)
-    coins_count = 0
+    coins.sort(reverse=True)
+    counter = 0
 
     for coin in coins:
-        if total >= coin:
-            coins_count += total // coin
-            total %= coin
+        if coin > total:
+            continue
+        counter += total // coin
+        total %= coin
+        if total == 0:
+            return counter
 
-    return coins_count if total == 0 else -1
+    return -1
