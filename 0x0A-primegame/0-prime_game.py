@@ -10,49 +10,37 @@ determine the winner of each game.
 
 def isWinner(x, nums):
     """
-    Determines the winner of each game based on the given number of rounds
+    Determines the winner of the game.
     Args:
-        x (int): The number of rounds.
-        nums (list): An array of integers
-
+        x (int): the number of rounds in the game.
+        nums (list): a list of n integers representing the set of numbers
+        from which the player can choose.
     Returns:
-        str: The name of the player that won the most rounds.
-        If the winner cannot be
-        determined, returns None.
-
+        The name of the player that won the most rounds. If the winner cannot
+        be determined, return None.
     """
-
-    def is_prime(num):
-        """
-        Checks if a number is prime.
-
-        Args:
-            num (int): The number to check.
-
-        Returns:
-            bool: True if the number is prime, False otherwise.
-
-        """
-        if num < 2:
-            return False
-        for i in range(2, int(num ** 0.5) + 1):
-            if num % i == 0:
-                return False
-        return True
-
-    maria_wins = 0
-    ben_wins = 0
-
-    for n in nums:
-        prime_count = sum(is_prime(i) for i in range(1, n + 1))
-        if prime_count % 2 == 0:
-            ben_wins += 1
-        else:
-            maria_wins += 1
-
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif ben_wins > maria_wins:
-        return "Ben"
-    else:
+    if x <= 0 or nums is None or len(nums) == 0:
         return None
+    n = max(nums)
+    primes = [True for i in range(n + 1)]
+    p = 2
+    while (p * p <= n):
+        if (primes[p] == True):
+            for i in range(p * 2, n + 1, p):
+                primes[i] = False
+        p += 1
+    primes[0] = False
+    primes[1] = False
+    c = 0
+    for i in range(len(primes)):
+        if primes[i]:
+            c += 1
+        primes[i] = c
+    player = 0
+    for i in range(x):
+        player += primes[nums[i]]
+    if player * 2 == primes[nums[-1]]:
+        return None
+    if player * 2 > primes[nums[-1]]:
+        return "Maria"
+    return "Ben"
