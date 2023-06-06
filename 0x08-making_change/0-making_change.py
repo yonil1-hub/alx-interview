@@ -8,7 +8,7 @@ total amount using the coins provided.
 """
 
 
-def find_minimum_coins(coins, total):
+def makeChange(coins, total):
     """Finds the minimum number of coins required to make the given total.
 
     Args:
