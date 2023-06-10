@@ -1,15 +1,50 @@
 #!/usr/bin/python3
-import random
-import sys
-from time import sleep
-import datetime
+"""Log parsing"""
 
-for i in range(10000):
-    sleep(random.random())
-    sys.stdout.write("{:d}.{:d}.{:d}.{:d} - [{}] \"GET /projects/260 HTTP/1.1\" {} {}\n".format(
-        random.randint(1, 255), random.randint(1, 255), random.randint(1, 255), random.randint(1, 255),
-        datetime.datetime.now(),
-        random.choice([200, 301, 400, 401, 403, 404, 405, 500]),
-        random.randint(1, 1024)
-    ))
-    sys.stdout.flush()
+
+import sys
+
+
+def compute_statistics():
+    """Reads stdin line by line and computes metrics."""
+    
+    total_size = 0
+    status_counts = {}
+
+    try:
+        for line_num, line in enumerate(sys.stdin, start=1):
+            # Parse the line
+            parts = line.strip().split()
+            if len(parts) < 7:
+                continue
+            
+            ip_address = parts[0]
+            status_code = parts[-2]
+            file_size = int(parts[-1])
+
+            # Update total file size
+            total_size += file_size
+
+            # Update status code counts
+            if status_code.isdigit():
+                status_counts.setdefault(int(status_code), 0)
+                status_counts[int(status_code)] += 1
+
+            # Print statistics every 10 lines
+            if line_num % 10 == 0:
+                print("File size:", total_size)
+                for code in sorted(status_counts):
+                    print(code, ":", status_counts[code])
+
+        # Print final statistics
+        print("File size:", total_size)
+        for code in sorted(status_counts):
+            count = status_counts[code]
+            print(f"{code}: {count}")
+
+    except KeyboardInterrupt:
+        # Handle keyboard interrupt (CTRL + C)
+        pass
+
+if __name__ == '__main__':
+    compute_statistics()
